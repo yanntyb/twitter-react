@@ -1,0 +1,30 @@
+.post-list{
+  width: 70vw;
+  border-right: 1px solid black;
+  display: flex;
+  justify-content: center;
+  padding-top: 5%;
+  margin-left: 15vw;
+
+  * {
+    font-size: 120%;
+  }
+
+
+
+  .posts{
+    //box-shadow:inset 0px 0px 8px 2px #de8e8b;
+    overflow-y: scroll;
+    width: 60%;
+    position: fixed;
+    top: 30%;
+    left: 20%;
+    padding: 1%;
+    max-height: 65%;
+
+    &.not-connected{
+      top: 10%;
+      max-height: 90%;
+    }
+  }
+}

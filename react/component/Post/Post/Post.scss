@@ -1,0 +1,22 @@
+.post{
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 3%;
+
+
+  .user{
+    width: 10%;
+
+    img{
+      width: 100%;
+    }
+  }
+
+  .content{
+    width: 90%;
+    padding-left: 2%;
+  }
+
+  border-bottom: 1px solid #B0413E;
+}

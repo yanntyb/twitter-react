@@ -1,0 +1,33 @@
+.action{
+  width: 100%;
+  margin-top: 2%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+
+  button{
+    outline: none;
+    border: none;
+    background-color: transparent;
+    width: 5%;
+    color: #889189;
+
+    &.true{
+
+      color: #de8e8b;
+    }
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    &.like{
+      display: flex;
+      .like-counter{
+        font-size: 40%;
+      }
+    }
+
+
+  }
+}
