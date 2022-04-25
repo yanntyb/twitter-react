@@ -7,6 +7,7 @@ import {Header} from "./component/Header/Header";
 
 import "./assets/style/index.scss"
 import {Notifications} from "./pages/Notifications";
+import {Bookmark} from "./pages/Bookmark";
 
 
 
@@ -16,6 +17,7 @@ ReactDOM.render(
         <Routes >
             <Route path="/" element={<Home />} />
             <Route path="/notifications" element={<Notifications />} />
+            <Route path="/fav" element={<Bookmark />} />
         </Routes>
     </BrowserRouter>,
     document.getElementById("root")

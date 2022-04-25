@@ -1,7 +1,7 @@
 import {PostList} from "../component/Post/PostList/PostList";
 import {useEffect, useState} from "react";
 
-export const Home = () => {
+export const Bookmark = () => {
 
     const [user, setUser] = useState(null);
 
@@ -20,7 +20,7 @@ export const Home = () => {
 
     return (
         <>
-            <PostList user={user} page="post" />
+            <PostList user={user} page="bookmark"/>
         </>
     )
 }

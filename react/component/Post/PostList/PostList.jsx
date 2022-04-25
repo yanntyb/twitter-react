@@ -1,37 +1,37 @@
 import "./PostList.scss";
 import {NewPost} from "../NewPost/NewPost";
 import {Post} from "../Post/Post";
+import {useEffect, useState} from "react";
 
-export const PostList = ({user}) => {
+export const PostList = ({user, page = "post"}) => {
 
-    const lorem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut lobortis, ante ut luctus scelerisque, sapien elit dictum felis, quis vehicula lectus mi sed est. Morbi at sapien in nulla aliquet ultricies id at mi. Proin feugiat odio in gravida ultrices. Pellentesque nisi elit, accumsan in est vitae, eleifend vestibulum enim.";
+    const [posts, setPosts] = useState([]);
+    const [showNewPost, setShowNewPost] = useState(false);
 
-    const posts = [
-        {
-            id: 1,
-            user: "yann",
-            content: lorem,
-            like: 10,
-        },
-        {
-            id: 2,
-            user: "yann",
-            content: lorem,
-            like: 10,
-        },
-        {
-            id: 3,
-            user: "yann",
-            content: lorem,
-            like: 10,
-        },
+    useEffect(() => {
+        const req = new XMLHttpRequest();
+        req.open("POST", "/api/" + page + "/get");
+        req.onload = () => {
+            const response = JSON.parse(req.responseText);
+            setPosts(response.flat());
+            if(page === "post"){
+                setShowNewPost(true);
+            }
+        }
+        if(user){
+            req.send();
+        }
+        else{
+            req.send(JSON.stringify({user: 0}))
+        }
 
-    ]
+    }, [])
+
 
     return (
         <div className="post-list">
-            {user && <NewPost user={user} />}
-            <div className={"posts" + (!user ? " not-connected" : "")}>
+            {showNewPost && <NewPost user={user} />}
+            <div className={"posts" + (!showNewPost ? " full" : "")}>
                 {posts.map(post => <Post key={post.id} data={post} />)}
             </div>
         </div>

@@ -2,27 +2,25 @@
 
 namespace App\Entity;
 
-use App\Repository\UserFollowedRepository;
+use App\Repository\BookmarkRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Ignore;
 
-#[ORM\Entity(repositoryClass: UserFollowedRepository::class)]
-class UserFollowed
+#[ORM\Entity(repositoryClass: BookmarkRepository::class)]
+class Bookmark
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'userFolloweds')]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'post')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Ignore]
     private $user;
 
-    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'userFolloweds')]
+    #[ORM\ManyToOne(targetEntity: Post::class)]
     #[ORM\JoinColumn(nullable: false)]
-    #[Ignore]
-    private $followed;
+    private $post;
 
     public function getId(): ?int
     {
@@ -41,14 +39,14 @@ class UserFollowed
         return $this;
     }
 
-    public function getFollowed(): ?User
+    public function getPost(): ?Post
     {
-        return $this->followed;
+        return $this->post;
     }
 
-    public function setFollowed(?User $followed): self
+    public function setPost(?Post $post): self
     {
-        $this->followed = $followed;
+        $this->post = $post;
 
         return $this;
     }

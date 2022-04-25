@@ -9,12 +9,16 @@ export const NewPost = ({user}) => {
 
     const image = user.image !== "" ? user.image : require("../../../assets/image/profile-placeholder.png");
 
+    function handleNewPost(){
+        console.log(post);
+    }
+
     return (
         <div className="post-new">
             <Link to="/profile"><img src={image} alt=""/></Link>
             <div className="form">
                 <input placeholder="What's happening ?" type="text" value={post} onChange={e => setPost(e.target.value)}/>
-                <button>Tweet</button>
+                <button onClick={handleNewPost}>Tweet</button>
             </div>
         </div>
     )

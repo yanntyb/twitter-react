@@ -15,14 +15,13 @@
   .posts{
     //box-shadow:inset 0px 0px 8px 2px #de8e8b;
     overflow-y: scroll;
-    width: 60%;
+    width: 70vw;
     position: fixed;
     top: 30%;
-    left: 20%;
     padding: 1%;
     max-height: 65%;
 
-    &.not-connected{
+    &.full{
       top: 10%;
       max-height: 90%;
     }

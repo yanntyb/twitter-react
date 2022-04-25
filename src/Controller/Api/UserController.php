@@ -13,7 +13,7 @@ class UserController extends AbstractController
     public function getConnected(): JsonResponse
     {
         if($this->getUser()){
-            return $this->json(["connected" => true, "user" =>$this->getUser()]);
+            return $this->json(["connected" => true, "user" => $this->getUser()]);
         }
         return $this->json(["connected" => false]);
     }

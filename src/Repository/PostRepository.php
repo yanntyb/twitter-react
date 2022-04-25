@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Post;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
@@ -16,15 +17,15 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class PostRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+
+    private UserFollowedRepository $userFollowedRepository;
+
+    public function __construct(ManagerRegistry $registry, UserFollowedRepository $userFollowedRepository)
     {
         parent::__construct($registry, Post::class);
+        $this->userFollowedRepository = $userFollowedRepository;
     }
 
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
     public function add(Post $entity, bool $flush = true): void
     {
         $this->_em->persist($entity);
@@ -33,10 +34,6 @@ class PostRepository extends ServiceEntityRepository
         }
     }
 
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
     public function remove(Post $entity, bool $flush = true): void
     {
         $this->_em->remove($entity);
@@ -45,32 +42,49 @@ class PostRepository extends ServiceEntityRepository
         }
     }
 
-    // /**
-    //  * @return Post[] Returns an array of Post objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('p.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+//    public function findByExampleField($value)
+//    {
+//        return $this->createQueryBuilder('p')
+//            ->andWhere('p.exampleField = :val')
+//            ->setParameter('val', $value)
+//            ->orderBy('p.id', 'ASC')
+//            ->setMaxResults(10)
+//            ->getQuery()
+//            ->getResult()
+//        ;
+//    }
 
-    /*
-    public function findOneBySomeField($value): ?Post
+//    public function findOneBySomeField($value): ?Post
+//    {
+//        return $this->createQueryBuilder('p')
+//            ->andWhere('p.exampleField = :val')
+//            ->setParameter('val', $value)
+//            ->getQuery()
+//            ->getOneOrNullResult()
+//        ;
+//    }
+
+    public function getRelated(User $user): array
     {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        $userFollowed = $this->userFollowedRepository->findBy(["user" => $user->getId()]);
+
+        $posts = [];
+        foreach($userFollowed as $user){
+            $posts[] = $this->createQueryBuilder("p")
+                ->andWhere("p.user = :user")
+                ->setParameter("user", $user->getFollowed()->getId())
+                ->getQuery()
+                ->getResult();
+        }
+        return array_merge(...$posts);
     }
-    */
+
+    /**
+     * Return post displayed when user is not connected
+     * @return array
+     */
+    public function getTrend()
+    {
+        return [];
+    }
 }
