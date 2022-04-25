@@ -20,7 +20,7 @@ export const Home = () => {
 
     return (
         <>
-            <PostList user={user} page="post" />
+            {user && <PostList user={user} page="post" /> }
         </>
     )
 }

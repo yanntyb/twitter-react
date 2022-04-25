@@ -5,6 +5,8 @@ namespace App\Controller\Api;
 use App\Entity\Bookmark;
 use App\Repository\BookmarkRepository;
 use App\Repository\PostRepository;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,21 +31,23 @@ class BookmarkController extends AbstractController
         $data = [];
         foreach($this->bookmarkRepository->findBy(["user" => $this->getUser()->getId()]) as $post ){
             $data[] = [
-                "content" => $post->getPost()->getContent(),
-                "id" => $post->getPost()->getId(),
-                "user" => $post->getUser()
+                "data" => [
+                    "content" => $post->getPost()->getContent(),
+                    "id" => $post->getPost()->getId(),
+                    "user" => $post->getUser()
+                ]
             ];
         }
         return $this->json($data);
     }
 
     /**
-     * @throws \Doctrine\ORM\OptimisticLockException
-     * @throws \Doctrine\ORM\ORMException
+     * @throws OptimisticLockException
+     * @throws ORMException
      */
     #[Route("/put", name: "put")]
     public function put(Request $req){
-        $post = json_decode(file_get_contents("php://input"));
+        $post = json_decode($req->getContent());
 
         $bookmark = $this->bookmarkRepository->findOneBy(["post" => $post->id, "user" => $this->getUser()->getId()]);
         if($bookmark){

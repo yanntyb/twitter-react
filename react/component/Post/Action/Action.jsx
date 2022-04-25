@@ -4,11 +4,11 @@ import {faBookmark, faHeart, faReply} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {useState} from "react";
 
-export const Action = ({postId, like}) => {
+export const Action = ({postId, liked, bookmarked}) => {
 
-    const [isLiked, setIsLiked] = useState(false);
+    const [isLiked, setIsLiked] = useState(liked);
     const [isReplied, setIsReplied] = useState(false);
-    const [isBookmarked, setIsBookmarked] = useState(false);
+    const [isBookmarked, setIsBookmarked] = useState(bookmarked);
 
     function handleLike(){
         const req = new XMLHttpRequest();
@@ -31,7 +31,7 @@ export const Action = ({postId, like}) => {
     return (
         <div className="action">
             <button className={"like " + isLiked.toString()} onClick={handleLike}>
-                <FontAwesomeIcon icon={faHeart} /><span className="like-counter">({like})</span>
+                <FontAwesomeIcon icon={faHeart} /><span className="like-counter"></span>
             </button>
             <button className={isReplied.toString()} onClick={() => setIsReplied(!isReplied)}>
                 <FontAwesomeIcon icon={faReply} />

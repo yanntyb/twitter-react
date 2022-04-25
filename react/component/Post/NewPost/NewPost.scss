@@ -27,5 +27,9 @@
     background-color: #B0413E;
     color: white;
     width: 20%;
+
+    &:hover{
+      cursor: pointer;
+    }
   }
 }

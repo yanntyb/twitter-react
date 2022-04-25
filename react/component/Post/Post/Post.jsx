@@ -1,20 +1,38 @@
 import "./Post.scss";
 import {Action} from "../Action/Action";
 
-export const Post = ({data}) => {
+export const Post = ({data, action, showAction, user, userInfo = true, canBeDeleted = false, setIsPostUpdated}) => {
 
-    const {user, content, id, bookmark, reply, like} = data;
+    const {bookmark, like} = action;
+    const {content, id, date} = data;
+
+    function handleDelete(){
+        const req = new XMLHttpRequest();
+        req.open("POST", "/api/post/remove");
+        req.onload = () => {
+            setIsPostUpdated(true);
+        }
+        req.send(JSON.stringify({post: id}));
+    }
 
     return (
         <div className="post">
-            <div className="user">
-                <img src={require("../../../assets/image/profile-placeholder.png")} alt={user.email}/>
-                <span>{user.email}</span>
-            </div>
+            {
+                userInfo &&
+                <div className="user">
+                    <img src={require("../../../assets/image/profile-placeholder.png")} alt={user.email}/>
+                    <span>{user.email}</span>
+                </div>
+            }
+
             <div className="content">
                 {content}
+                <div className="date">
+                    {(new Date(date)).toDateString()}
+                </div>
             </div>
-            <Action postId={id} like={like}/>
+            {canBeDeleted && <button className="delete" onClick={handleDelete}>x</button>}
+            {showAction && <Action postId={id} bookmarked={bookmark} liked={like} />}
         </div>
     )
 }

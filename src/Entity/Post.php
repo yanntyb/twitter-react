@@ -24,6 +24,9 @@ class Post
     #[ORM\OneToMany(mappedBy: 'post', targetEntity: Like::class)]
     private $likes;
 
+    #[ORM\Column(type: 'date')]
+    private $date;
+
     public function __construct()
     {
         $this->likes = new ArrayCollection();
@@ -84,6 +87,18 @@ class Post
                 $like->setPost(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDate(): ?\DateTimeInterface
+    {
+        return $this->date;
+    }
+
+    public function setDate(\DateTimeInterface $date): self
+    {
+        $this->date = $date;
 
         return $this;
     }

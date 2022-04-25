@@ -3,14 +3,28 @@ import {useState} from "react";
 import "./NewPost.scss";
 import {Link} from "react-router-dom";
 
-export const NewPost = ({user}) => {
+export const NewPost = ({user, setIsPostUpdated}) => {
 
     const [post, setPost] = useState("");
 
-    const image = user.image !== "" ? user.image : require("../../../assets/image/profile-placeholder.png");
+    let image;
+
+    if(user){
+        image = user.image !== "" ? user.image : require("../../../assets/image/profile-placeholder.png");
+    }
+    else{
+        image = require("../../../assets/image/profile-placeholder.png");
+    }
+
 
     function handleNewPost(){
-        console.log(post);
+        const req = new XMLHttpRequest();
+        req.open("POST", "/api/post/new");
+        req.onload = () => {
+            setPost("");
+            setIsPostUpdated(true)
+        }
+        req.send(JSON.stringify({post: post}));
     }
 
     return (
