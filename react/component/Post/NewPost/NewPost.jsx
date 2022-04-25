@@ -3,7 +3,7 @@ import {useState} from "react";
 import "./NewPost.scss";
 import {Link} from "react-router-dom";
 
-export const NewPost = ({user, setIsPostUpdated}) => {
+export const NewPost = ({user, setIsPostUpdated, setNotifications}) => {
 
     const [post, setPost] = useState("");
 
@@ -21,6 +21,7 @@ export const NewPost = ({user, setIsPostUpdated}) => {
         const req = new XMLHttpRequest();
         req.open("POST", "/api/post/new");
         req.onload = () => {
+            setNotifications("Votre post est disponible dans votre profile")
             setPost("");
             setIsPostUpdated(true)
         }

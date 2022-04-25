@@ -3,7 +3,7 @@ import {NewPost} from "../NewPost/NewPost";
 import {Post} from "../Post/Post";
 import {useEffect, useState} from "react";
 
-export const PostList = ({user, page = "post", userInfo = true, canBeDeleted = false}) => {
+export const PostList = ({user, page = "post", userInfo = true, canBeDeleted = false, setNotification}) => {
 
     const [posts, setPosts] = useState([]);
     const [isPostUpdated, setIsPostUpdated] = useState(false);
@@ -42,7 +42,7 @@ export const PostList = ({user, page = "post", userInfo = true, canBeDeleted = f
 
     return (
         <div className="post-list">
-            {showNewPost && <NewPost user={user} setIsPostUpdated={setIsPostUpdated} />}
+            {showNewPost && <NewPost user={user} setIsPostUpdated={setIsPostUpdated} setNotifications={setNotification} />}
             {
                 showPost &&
                 <div className={"posts" + (!showNewPost ? " full" : "")}>

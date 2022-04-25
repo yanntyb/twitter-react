@@ -1,9 +1,11 @@
 import {PostList} from "../component/Post/PostList/PostList";
 import {useEffect, useState} from "react";
+import {Notification} from "../component/Notification/Notification";
 
 export const Home = () => {
 
     const [user, setUser] = useState(null);
+    const [notification, setNotification] = useState("");
 
     useEffect(() => {
         const req = new XMLHttpRequest();
@@ -20,7 +22,8 @@ export const Home = () => {
 
     return (
         <>
-            {user && <PostList user={user} page="post" /> }
+            <Notification message={notification} />
+            {user && <PostList user={user} page="post" setNotification={setNotification} /> }
         </>
     )
 }
